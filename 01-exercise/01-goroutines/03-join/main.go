@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"sync"
 )
+
+var wg sync.WaitGroup
 
 func main() {
 	//TODO: modify the program
@@ -10,11 +13,13 @@ func main() {
 	// deterministically.
 
 	var data int
-
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		data++
 	}()
 
+	wg.Wait()
 	fmt.Printf("the value of data is %v\n", data)
 
 	fmt.Println("Done..")
